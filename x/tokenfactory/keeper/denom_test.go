@@ -40,20 +40,6 @@ func TestDenomGet(t *testing.T) {
 		)
 	}
 }
-func TestDenomRemove(t *testing.T) {
-	keeper, ctx := keepertest.TokenfactoryKeeper(t)
-	items := createNDenom(keeper, ctx, 10)
-	for _, item := range items {
-		keeper.RemoveDenom(ctx,
-			item.Denom,
-		)
-		_, found := keeper.GetDenom(ctx,
-			item.Denom,
-		)
-		require.False(t, found)
-	}
-}
-
 func TestDenomGetAll(t *testing.T) {
 	keeper, ctx := keepertest.TokenfactoryKeeper(t)
 	items := createNDenom(keeper, ctx, 10)
