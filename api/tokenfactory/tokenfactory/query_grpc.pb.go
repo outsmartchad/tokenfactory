@@ -20,7 +20,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName = "/tokenfactory.tokenfactory.Query/Params"
+	Query_Params_FullMethodName   = "/tokenfactory.tokenfactory.Query/Params"
+	Query_Denom_FullMethodName    = "/tokenfactory.tokenfactory.Query/Denom"
+	Query_DenomAll_FullMethodName = "/tokenfactory.tokenfactory.Query/DenomAll"
 )
 
 // QueryClient is the client API for Query service.
@@ -29,6 +31,9 @@ const (
 type QueryClient interface {
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
+	// Queries a list of Denom items.
+	Denom(ctx context.Context, in *QueryGetDenomRequest, opts ...grpc.CallOption) (*QueryGetDenomResponse, error)
+	DenomAll(ctx context.Context, in *QueryAllDenomRequest, opts ...grpc.CallOption) (*QueryAllDenomResponse, error)
 }
 
 type queryClient struct {
@@ -48,12 +53,33 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 	return out, nil
 }
 
+func (c *queryClient) Denom(ctx context.Context, in *QueryGetDenomRequest, opts ...grpc.CallOption) (*QueryGetDenomResponse, error) {
+	out := new(QueryGetDenomResponse)
+	err := c.cc.Invoke(ctx, Query_Denom_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) DenomAll(ctx context.Context, in *QueryAllDenomRequest, opts ...grpc.CallOption) (*QueryAllDenomResponse, error) {
+	out := new(QueryAllDenomResponse)
+	err := c.cc.Invoke(ctx, Query_DenomAll_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
+	// Queries a list of Denom items.
+	Denom(context.Context, *QueryGetDenomRequest) (*QueryGetDenomResponse, error)
+	DenomAll(context.Context, *QueryAllDenomRequest) (*QueryAllDenomResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -63,6 +89,12 @@ type UnimplementedQueryServer struct {
 
 func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
+}
+func (UnimplementedQueryServer) Denom(context.Context, *QueryGetDenomRequest) (*QueryGetDenomResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Denom not implemented")
+}
+func (UnimplementedQueryServer) DenomAll(context.Context, *QueryAllDenomRequest) (*QueryAllDenomResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DenomAll not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -95,6 +127,42 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_Denom_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetDenomRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).Denom(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_Denom_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).Denom(ctx, req.(*QueryGetDenomRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_DenomAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAllDenomRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).DenomAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_DenomAll_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).DenomAll(ctx, req.(*QueryAllDenomRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -105,6 +173,14 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Params",
 			Handler:    _Query_Params_Handler,
+		},
+		{
+			MethodName: "Denom",
+			Handler:    _Query_Denom_Handler,
+		},
+		{
+			MethodName: "DenomAll",
+			Handler:    _Query_DenomAll_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

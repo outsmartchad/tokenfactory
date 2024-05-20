@@ -17,6 +17,17 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "params",
 					Short:     "Shows the parameters of the module",
 				},
+				{
+					RpcMethod: "DenomAll",
+					Use:       "list-denom",
+					Short:     "List all Denom",
+				},
+				{
+					RpcMethod:      "Denom",
+					Use:            "show-denom [id]",
+					Short:          "Shows a Denom",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "denom"}},
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
@@ -27,6 +38,24 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				{
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
+				},
+				{
+					RpcMethod:      "CreateDenom",
+					Use:            "create-denom [denom] [description] [ticker] [precision] [url] [maxSupply] [supply] [canChangeMaxSupply]",
+					Short:          "Create a new Denom",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "denom"}, {ProtoField: "description"}, {ProtoField: "ticker"}, {ProtoField: "precision"}, {ProtoField: "url"}, {ProtoField: "maxSupply"}, {ProtoField: "supply"}, {ProtoField: "canChangeMaxSupply"}},
+				},
+				{
+					RpcMethod:      "UpdateDenom",
+					Use:            "update-denom [denom] [description] [ticker] [precision] [url] [maxSupply] [supply] [canChangeMaxSupply]",
+					Short:          "Update Denom",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "denom"}, {ProtoField: "description"}, {ProtoField: "ticker"}, {ProtoField: "precision"}, {ProtoField: "url"}, {ProtoField: "maxSupply"}, {ProtoField: "supply"}, {ProtoField: "canChangeMaxSupply"}},
+				},
+				{
+					RpcMethod:      "DeleteDenom",
+					Use:            "delete-denom [denom]",
+					Short:          "Delete Denom",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "denom"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
