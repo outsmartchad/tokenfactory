@@ -1,0 +1,15 @@
+syntax = "proto3";
+package tokenfactory.tokenfactory;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "tokenfactory/x/tokenfactory/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "tokenfactory/x/tokenfactory/Params";
+  option (gogoproto.equal) = true;
+
+  
+}
