@@ -30,7 +30,7 @@ func (k msgServer) CreateDenom(goCtx context.Context, msg *types.MsgCreateDenom)
 		Precision:          msg.Precision,
 		Url:                msg.Url,
 		MaxSupply:          msg.MaxSupply,
-		Supply:             msg.Supply,
+		Supply: 0,
 		CanChangeMaxSupply: msg.CanChangeMaxSupply,
 	}
 
@@ -52,21 +52,24 @@ func (k msgServer) UpdateDenom(goCtx context.Context, msg *types.MsgUpdateDenom)
 	if !isFound {
 		return nil, errorsmod.Wrap(sdkerrors.ErrKeyNotFound, "index not set")
 	}
-
 	// Checks if the msg owner is the same as the current owner
 	if msg.Owner != valFound.Owner {
 		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "incorrect owner")
+	}
+	if !valFound.CanChangeMaxSupply && msg.MaxSupply != valFound.Supply{
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "cannot change maxsupply")
+	}
+
+	if !valFound.CanChangeMaxSupply && msg.CanChangeMaxSupply{
+		return nil, errorsmod.Wrap(sdkerrors.ErrUnauthorized, "Cannot revert change maxsupply flag")
 	}
 
 	var denom = types.Denom{
 		Owner:              msg.Owner,
 		Denom:              msg.Denom,
 		Description:        msg.Description,
-		Ticker:             msg.Ticker,
-		Precision:          msg.Precision,
 		Url:                msg.Url,
 		MaxSupply:          msg.MaxSupply,
-		Supply:             msg.Supply,
 		CanChangeMaxSupply: msg.CanChangeMaxSupply,
 	}
 

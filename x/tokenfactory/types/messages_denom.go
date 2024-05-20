@@ -28,7 +28,6 @@ func NewMsgCreateDenom(
 		Precision:          precision,
 		Url:                url,
 		MaxSupply:          maxSupply,
-		Supply:             supply,
 		CanChangeMaxSupply: canChangeMaxSupply,
 	}
 }
@@ -59,11 +58,8 @@ func NewMsgUpdateDenom(
 		Owner:              owner,
 		Denom:              denom,
 		Description:        description,
-		Ticker:             ticker,
-		Precision:          precision,
 		Url:                url,
 		MaxSupply:          maxSupply,
-		Supply:             supply,
 		CanChangeMaxSupply: canChangeMaxSupply,
 	}
 }
