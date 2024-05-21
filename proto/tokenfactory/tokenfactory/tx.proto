@@ -17,9 +17,11 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
-  rpc CreateDenom  (MsgCreateDenom ) returns (MsgCreateDenomResponse );
-  rpc UpdateDenom  (MsgUpdateDenom ) returns (MsgUpdateDenomResponse );
+  rpc UpdateParams      (MsgUpdateParams     ) returns (MsgUpdateParamsResponse     );
+  rpc CreateDenom       (MsgCreateDenom      ) returns (MsgCreateDenomResponse      );
+  rpc UpdateDenom       (MsgUpdateDenom      ) returns (MsgUpdateDenomResponse      );
+  rpc MintAndSendTokens (MsgMintAndSendTokens) returns (MsgMintAndSendTokensResponse);
+  rpc UpdateOwner       (MsgUpdateOwner      ) returns (MsgUpdateOwnerResponse      );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -28,7 +30,7 @@ message MsgUpdateParams {
   
   // authority is the address that controls the module (defaults to x/gov unless overwritten).
   string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
-  
+
   // params defines the module parameters to update.
   
   // NOTE: All parameters must be supplied.
@@ -65,5 +67,22 @@ message MsgUpdateDenom {
 
 message MsgUpdateDenomResponse {}
 
+message MsgMintAndSendTokens {
+  option (cosmos.msg.v1.signer) = "owner";
+  string owner     = 1;
+  string denom     = 2;
+  int32  amount    = 3;
+  string recipient = 4;
+}
 
+message MsgMintAndSendTokensResponse {}
+
+message MsgUpdateOwner {
+  option (cosmos.msg.v1.signer) = "owner";
+  string owner    = 1;
+  string denom    = 2;
+  string newOwner = 3;
+}
+
+message MsgUpdateOwnerResponse {}
 

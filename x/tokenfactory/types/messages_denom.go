@@ -71,6 +71,3 @@ func (msg *MsgUpdateDenom) ValidateBasic() error {
 	}
 	return nil
 }
-
-var _ sdk.Msg = &MsgDeleteDenom{}
-
