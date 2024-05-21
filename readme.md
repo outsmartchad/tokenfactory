@@ -1,5 +1,5 @@
-# tokenfactory
-**tokenfactory** is a blockchain built using Cosmos SDK and Tendermint and created with [Ignite CLI](https://ignite.com/cli).
+# tokenfactory (Advanced Module tutorial in Ignite CLI docs) https://docs.ignite.com/guide/tokenfactory/tokenfactory
+**tokenfactory** is a blockchain where its module is for creating and managing native assets on chain, and built using Cosmos SDK and Tendermint and created with [Ignite CLI](https://ignite.com/cli).
 
 ## Get started
 
